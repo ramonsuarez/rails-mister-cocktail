@@ -1,4 +1,5 @@
 class CocktailsController < ApplicationController
+  before_action :set_cocktail, only: [:show, :edit, :update, :destroy]
   def index         # GET /cocktails
     @cocktails = Cocktail.all
   end
@@ -11,8 +12,9 @@ class CocktailsController < ApplicationController
   end
 
   def create        # POST /cocktails
-    Cocktail.create(cocktail_params)
-    redirect_to cocktails_path
+    @cocktail = Cocktail.new(cocktail_params)
+    @cocktail.save
+    redirect_to cocktail_path(@cocktail)
   end
 
   def edit          # GET /cocktails/:id/edit
