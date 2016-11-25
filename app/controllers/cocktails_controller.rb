@@ -13,8 +13,12 @@ class CocktailsController < ApplicationController
 
   def create        # POST /cocktails
     @cocktail = Cocktail.new(cocktail_params)
-    @cocktail.save
-    redirect_to cocktail_path(@cocktail)
+      if @cocktail.valid?
+        @cocktail.save
+        redirect_to cocktail_path(@cocktail)
+      else
+        render "cocktails/new"
+      end
   end
 
   def edit          # GET /cocktails/:id/edit
@@ -33,7 +37,7 @@ class CocktailsController < ApplicationController
   private
 
   def cocktail_params
-    params.require(:cocktail).permit(:name)
+    params.require(:cocktail).permit(:name, :id)
   end
 
   def set_cocktail
